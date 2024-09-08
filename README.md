@@ -12,6 +12,13 @@ In theory, this is better for Gaming as there is less latency,
 but the tradeoff is that the throughput of the system is theoretically lower
 too.
 
+## Issues
+
+Check the issues page on GitHub for any notes about outstanding or existing
+issues. If you encounter a problem with `adjust-pci-latency` of which no such
+issue already exists please feel free to help the developer by creating an
+issue ticket.
+
 ## License
 
 GPLv2

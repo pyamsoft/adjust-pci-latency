@@ -21,8 +21,8 @@
 # adjust-pci-latency
 # by: pyamsoft <developer(dot)pyamsoft(at)gmail(dot)com>
 
-NAME="$(basename "$0")"
-VERSION="0.0.1"
+readonly NAME="$(basename "$0")"
+readonly VERSION="0.0.1"
 
 # Taken from, with modification
 # https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/bin/pci-latency
