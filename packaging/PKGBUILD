@@ -8,7 +8,7 @@ pkgname=adjust-pci-latency-git
 # shellcheck disable=SC2034
 pkgdesc="Adjust PCI bus latency for gaming or pro-audio production"
 # shellcheck disable=SC2034
-pkgver=.r1.e9cf58d
+pkgver="0.0.1".r2.041e777
 # shellcheck disable=SC2034
 pkgrel=1
 # shellcheck disable=SC2034
@@ -34,7 +34,7 @@ url="https://github.com/pyamsoft/adjust-pci-latency.git"
 # shellcheck disable=SC2034
 source=("${_gitname}::git+${url}#branch=main")
 # shellcheck disable=SC2034
-sha256sums=('SKIP') 
+sha256sums=('SKIP')
 
 pkgver() {
   # shellcheck disable=SC2154
