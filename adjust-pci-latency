@@ -65,6 +65,18 @@ _log() {
   return 0
 }
 
+##
+# Error Log
+#
+# Accepts arguments in the same format as printf
+# $1 message
+# $@ arguments
+##
+_elog() {
+  _log "$@" 1>&2 || return 1
+  return 0
+}
+
 _check_kernel_lockdown() {
   _check_kernel_lockdown__yolo="$1"
 
@@ -115,20 +127,20 @@ _tweak_pci_gaming() {
   # Reset the latency timer for all PCI devices
   _log '[Baseline]: Adjust all PCI latency to 20.'
   setpci -v -s '*:*' latency_timer=20 || {
-    _log 'Failed resetting latency timer to 20 for all PCI' 1>&2
+    _elog 'Failed resetting latency timer to 20 for all PCI'
     return 1
   }
 
   _log '[Bus]: Adjust all bus 0 device PCI latency to 0.'
   setpci -v -s '0:0' latency_timer=0 || {
-    _log 'Failed resetting latency timer to 0 for all bus 0 devices' 1>&2
+    _elog 'Failed resetting latency timer to 0 for all bus 0 devices'
     return 1
   }
 
   # Set latency timer for all sound cards
   _log '[Audio]: Adjust all sound device PCI latency to 80'
   setpci -v -d "*:*:04xx" latency_timer=80 || {
-    _log 'Failed adjusting latency timer to 80 for all sound devices' 1>&2
+    _elog 'Failed adjusting latency timer to 80 for all sound devices'
     return 1
   }
 
@@ -142,13 +154,13 @@ _tweak_pci_audio() {
   # Reset the latency timer for all PCI devices
   _log -- '[Baseline]: Adjust all PCI latency to b0.'
   setpci -v -d '*:*' latency_timer=b0 || {
-    _log -- 'Failed resetting latency timer to b0 for all PCI' 1>&2
+    _elog -- 'Failed resetting latency timer to b0 for all PCI'
     return 1
   }
 
   _log '[Audio]: Adjust all sound device PCI latency to ff'
   setpci -v -d "*:*:04xx" latency_timer=ff || {
-    _log 'Failed adjusting latency timer to ff for all sound devices' 1>&2
+    _elog 'Failed adjusting latency timer to ff for all sound devices'
     return 1
   }
 
@@ -193,7 +205,7 @@ EOF
 # 4: action failed
 main() {
   if ! command -v setpci >/dev/null; then
-    _log 'You must have "setpci"' 1>&2
+    _elog 'You must have "setpci"'
     return "${ERR_NO_SETPCI}"
   fi
 
@@ -222,7 +234,7 @@ main() {
 
   # Check if the script is run with root privileges
   if [ "$(id -u)" -ne 0 ]; then
-    _log 'Error: This script must be run with root privileges.' 1>&2
+    _elog 'Error: This script must be run with root privileges.'
     return "${ERR_NO_ROOT}"
   fi
 
@@ -231,13 +243,13 @@ main() {
   case "${action}" in
   game)
     _tweak_pci_gaming || {
-      _log 'Failed to adjust PCI latency for gaming.' 1>&2
+      _elog 'Failed to adjust PCI latency for gaming.'
       return "${ERR_FAIL_SETPCI}"
     }
     ;;
   audio)
     _tweak_pci_audio || {
-      _log 'Failed to adjust PCI latency for pro-audio.' 1>&2
+      _elog 'Failed to adjust PCI latency for pro-audio.'
       return "${ERR_FAIL_SETPCI}"
     }
     ;;
