@@ -131,9 +131,9 @@ _tweak_pci_gaming() {
     return 1
   }
 
-  _log '[Bus]: Adjust all bus 0 device PCI latency to 0.'
+  _log '[Bus]: Adjust bus 0, device 0 PCI latency to 0.'
   setpci -v -s '0:0' latency_timer=0 || {
-    _elog 'Failed resetting latency timer to 0 for all bus 0 devices'
+    _elog 'Failed resetting latency timer to 0 for bus 0, device 0'
     return 1
   }
 
@@ -152,9 +152,9 @@ _tweak_pci_audio() {
   _log 'Pro-Audio: Tweaking system PCI latency...'
 
   # Reset the latency timer for all PCI devices
-  _log -- '[Baseline]: Adjust all PCI latency to b0.'
+  _log '[Baseline]: Adjust all PCI latency to b0.'
   setpci -v -d '*:*' latency_timer=b0 || {
-    _elog -- 'Failed resetting latency timer to b0 for all PCI'
+    _elog 'Failed resetting latency timer to b0 for all PCI'
     return 1
   }
 
